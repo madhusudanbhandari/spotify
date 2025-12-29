@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Spotify Clone',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
+      theme: AppTheme.darkThemeMode,
       home: SignupPage(),
     );
   }
