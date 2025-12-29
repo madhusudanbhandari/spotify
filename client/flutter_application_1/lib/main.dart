@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/theme/theme.dart';
 import 'package:flutter_application_1/features/auth/view/pages/signup_page.dart';
 
 void main() {
@@ -11,10 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      title: 'Spotify Clone',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(),
       home: SignupPage(),
     );
   }
