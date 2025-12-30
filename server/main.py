@@ -1,7 +1,10 @@
-from fastapi import FastAPI
+import uuid
+import bcrypt
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from sqlalchemy import create_engine
+from sqlalchemy import TEXT, VARCHAR, Column, LargeBinary, create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 app=FastAPI()
 
@@ -17,6 +20,17 @@ class UserCreate(BaseModel):
     email:str
     password:str
 
+Base=declarative_base()
+
+class User(Base):
+    __tablename__='users'
+
+    id=Column(TEXT,primary_key=True)
+    name=Column(VARCHAR(100))
+    email=Column(VARCHAR(100))
+    password=Column(LargeBinary)
+
+
 @app.post('/signup')
 def signup_user(user:UserCreate):
     #extract thre data from the request
@@ -25,6 +39,20 @@ def signup_user(user:UserCreate):
     print(user.password)
 
     #check if the user already exist in db
-    #add the user to the db
+    user_db=db.query(User).filter(User.email==user.email).first()
+
+    if  user_db:
+        raise HTTPException(400,"User with same email exist")
+
     
-    pass
+    hashed_pw=bcrypt.hashpw(user.password.encode(),bcrypt.gensalt())
+    user_db=User(id=str(uuid.uuid4()),email=user.email,password=hashed_pw,name=user.name)
+
+    #add the user to the db
+    db.add(user_db)
+    db.commit()
+    db.refresh(user_db)
+
+    return user_db
+
+Base.metadata.create_all(engine)
