@@ -1,14 +1,17 @@
-from main import app
 import uuid
 import bcrypt
-from fastapi import HTTPException
-from database import db
-from spotify.server.models.user import User
-from spotify.server.pydantic_schemas.user_create import UserCreate
+from fastapi import Depends, HTTPException
+from models.user import User
+from pydantic_schemas.user_create import UserCreate
+from fastapi import APIRouter
+from database import get_db
+from sqlalchemy.orm import Session
+
+router=APIRouter()
 
 
-@app.post('/signup')
-def signup_user(user:UserCreate):
+@router.post('/signup')
+def signup_user(user:UserCreate,db: Session=Depends(get_db)):
     #extract thre data from the request
     print(user.name)
     print(user.email)
