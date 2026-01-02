@@ -20,6 +20,12 @@ class CustomField extends StatelessWidget {
 
         border: OutlineInputBorder(),
       ),
+      validator: (val) {
+        if (val!.isEmpty) {
+          return 'Please enter $hintText';
+        }
+        return null;
+      },
       obscureText: isObscureText,
     );
   }
