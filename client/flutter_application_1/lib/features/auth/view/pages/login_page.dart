@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/auth/repositories/auth_remote_repository.dart';
+import 'package:flutter_application_1/features/auth/view/pages/signup_page.dart';
 import 'package:flutter_application_1/features/auth/view/widgets/auth_gradient_button.dart';
 import 'package:flutter_application_1/features/auth/view/widgets/custom_field.dart';
 
@@ -56,16 +57,24 @@ class _LoginPageState extends State<LoginPage> {
                 },
               ),
               SizedBox(height: 10),
-              RichText(
-                text: TextSpan(
-                  text: 'Don\'t have an account?',
-                  style: Theme.of(context).textTheme.titleMedium,
-                  children: [
-                    TextSpan(
-                      text: 'sign up',
-                      style: TextStyle(color: Colors.green),
-                    ),
-                  ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignupPage()),
+                  );
+                },
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Don\'t have an account?',
+                    style: Theme.of(context).textTheme.titleMedium,
+                    children: [
+                      TextSpan(
+                        text: 'sign up',
+                        style: TextStyle(color: Colors.green),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
